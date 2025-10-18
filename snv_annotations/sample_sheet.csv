@@ -1,0 +1,17 @@
+sample_id,sample_varients,cadd_annotation_path
+subset_1000,/data/humangen_kircherlab/Users/hassan/chaos_lab/snv_annotations/data/subset_1000.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/snv_annotations/data/case_GS608_snv_nochr.tsv.gz
+case_A5020_DNA_82_KIGS28_snv,/data/humangen_kircherlab/Users/hassan/run_rare/rare-disease-pipeline/outputs/A5020_DNA_82_KIGS28/call_snv/genome/case_A5020_DNA_82_KIGS28_snv.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/case_A5020_DNA_82_KIGS28_snv_CADD_GRCh38.tsv.gz
+case_A5020_DNA_85_KIGS32be_snv,/data/humangen_kircherlab/Users/hassan/run_rare/rare-disease-pipeline/outputs/A5020_DNA_85_KIGS32be/call_snv/genome/case_A5020_DNA_85_KIGS32be_snv.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/case_A5020_DNA_85_KIGS32be_snv_CADD_GRCh38.tsv.gz
+case_A5020_DNA_92_KiGS23re_snv,/data/humangen_kircherlab/Users/hassan/run_rare/rare-disease-pipeline/outputs/A5020_DNA_92_KiGS23re/call_snv/genome/case_A5020_DNA_92_KiGS23re_snv.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/case_A5020_DNA_92_KiGS23re_snv_CADD_GRCh38.tsv.gz
+case_A5020_DNA_98_GS467_snv,/data/humangen_kircherlab/Users/hassan/run_rare/rare-disease-pipeline/outputs/A5020_DNA_98_GS467/call_snv/genome/case_A5020_DNA_98_GS467_snv.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/case_A5020_DNA_98_GS467_snv_CADD_GRCh38.tsv.gz
+case_GS608_snv,/data/humangen_kircherlab/Users/hassan/run_rare/rare-disease-pipeline/outputs/GS608/call_snv/genome/case_GS608_snv.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/case_GS608_snv_CADD_GRCh38.tsv.gz
+multi_KIGS28_KIGS32_KiGS23,/data/humangen_sfb1665_seqdata/short_read/processed_data/00000_nadine_horning_KSamples/call_snv/genome/multi_KIGS28_KIGS32_KiGS23.vcf.gz,/data/humangen_kircherlab/Users/hassan/chaos_lab/cadd/annot_results/multi_KIGS28_KIGS32_KiGS23_CADD_GRCh38.tsv.gz
+
+
+
+
+
+
+
+
+
