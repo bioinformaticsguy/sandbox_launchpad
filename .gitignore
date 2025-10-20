@@ -1,0 +1,70 @@
+# Ignore outputs
+/final_outputs
+
+# Skip HPO annotations intermediate files
+/hpo_annotations/final_outputs
+
+# Skip SNV annotations intermediate files
+/snv_annotations/data
+/snv_annotations/databases
+/snv_annotations/ensamble_vep
+/snv_annotations/logs
+/snv_annotations/results
+
+
+# Skip snv filtering
+/snv_filtering/data
+/snv_filtering/results
+
+
+# Skip CADD files
+# data folders
+
+data/annotations/*
+data/prescored/GRCh38_v1.7/incl_anno/*
+data/prescored/GRCh37_v1.7/incl_anno/*
+data/prescored/GRCh38_v1.7/no_anno/*
+data/prescored/GRCh37_v1.7/no_anno/*
+input/*
+output/*
+
+# compiled files
+*.pyc
+
+# process files
+*.log
+
+# snakemake
+.snakemake*
+envs/*
+!envs/environment_minimal.yml
+!envs/esm.yml
+!envs/mmsplice.yml
+!envs/regulatorySequence.yml
+!envs/vep.yml
+
+# data files
+*.gz
+*.vcf
+*.tsv
+*.zip
+*.tbi
+
+# temp files
+!.editorconfig
+/cadd/.*
+/cadd/annot_results
+/cadd/config
+/cadd/data
+/cadd/envs
+/cadd/schemas
+/cadd/slurm_logs
+/cadd/src
+/cadd/test
+/cadd/CADD.sh
+/cadd/Dockerfile
+/cadd/install.sh
+/cadd/LICENSE
+/cadd/README.md
+/cadd/Snakefile
+/cadd/STDOUT_warnings.txt
