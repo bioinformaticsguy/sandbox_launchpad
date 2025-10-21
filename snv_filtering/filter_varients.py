@@ -80,7 +80,15 @@ def filter_by_gnomad_af(input_vcf, output_prefix, af_threshold=0.005, cadd_thres
         additional_fields = valid_fields
     
     # Create output VCF
-    output_vcf = f"{output_prefix}{input_basename}.rare_variants.vcf"
+    # output_vcf = f"{output_prefix}{input_basename}.rare_variants.vcf"
+    # print(f"Output VCF: {output_vcf}")
+    # writer = Writer(output_vcf, vcf)
+
+    # include AF and CADD thresholds in filename (replace '.' with 'p' to avoid extra dots)
+    af_str = f"af{af_threshold}".replace('.', 'p')
+    cadd_str = f"cadd{cadd_threshold}".replace('.', 'p') if cadd_threshold is not None else "noCADD"
+    suffix = f".{af_str}.{cadd_str}"
+    output_vcf = f"{output_prefix}{input_basename}{suffix}.rare_variants.vcf"
     print(f"Output VCF: {output_vcf}")
     writer = Writer(output_vcf, vcf)
     
@@ -184,9 +192,20 @@ def create_summary_table(input_vcf, output_prefix, af_threshold, csq_format, cad
 
     # Create output TSV
 
-    output_tsv = f"{output_prefix}{input_basename}.rare_variants.tsv"
-    print(f"Output TSV: {output_tsv}")
+    # output_tsv = f"{output_prefix}{input_basename}.rare_variants.tsv"
+    # print(f"Output TSV: {output_tsv}")
     
+    input_basename_local = os.path.splitext(os.path.basename(input_vcf))[0]
+    if input_basename_local.endswith('.vcf'):
+        input_basename_local = os.path.splitext(input_basename_local)[0]
+    af_str = f"af{af_threshold}".replace('.', 'p')
+    cadd_str = f"cadd{cadd_threshold}".replace('.', 'p') if cadd_threshold is not None else "noCADD"
+    suffix = f".{af_str}.{cadd_str}"
+    output_tsv = f"{output_prefix}{input_basename_local}{suffix}.rare_variants.tsv"
+    print(f"Output TSV: {output_tsv}")
+
+
+
     with open(output_tsv, 'w') as f:
         # Write header
         header = ['CHROM', 'POS', 'REF', 'ALT', 'gnomAD_AF']
