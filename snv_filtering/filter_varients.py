@@ -2,9 +2,6 @@ from cyvcf2 import VCF, Writer
 import sys
 import os
 
-
-
-
 def get_csq_format(vcf):
     """Extract CSQ field format from VCF header"""
     for line in vcf.raw_header.split('\n'):
