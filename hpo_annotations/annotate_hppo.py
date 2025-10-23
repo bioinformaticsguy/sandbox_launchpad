@@ -46,7 +46,7 @@ def main():
     parser.add_argument('-o', '--output_dir', required=True,
                         help='Directory to save annotated output files')
     parser.add_argument('--hpo_file', 
-                        default='/data/humangen_kircherlab/Users/hassan/chaos_lab/hpo_annotations/genes_to_phenotype.txt',
+                        default='/data/humangen_kircherlab/Users/hassan/repos/sandbox_launchpad/hpo_annotations/genes_to_phenotype.txt',
                         help='Path to genes_to_phenotype.txt file')
     parser.add_argument('--hpo_ids', nargs='+', default=['HP:0000078'],
                         help='List of HPO IDs to filter by (space-separated)')
