@@ -2,6 +2,40 @@ from cyvcf2 import VCF, Writer
 import sys
 import os
 
+
+def get_format_fields(variant):
+    """Extract FORMAT fields for the first sample"""
+    format_data = {}
+    
+    # Genotype (GT)
+    if variant.genotypes:
+        gt = variant.genotypes[0]  # [allele1, allele2, phased]
+        format_data['GT'] = f"{gt[0]}/{gt[1]}" if not gt[2] else f"{gt[0]}|{gt[1]}"
+    else:
+        format_data['GT'] = 'NA'
+    
+    # Depth (DP)
+    dp = variant.format('DP')
+    format_data['DP'] = str(dp[0][0]) if dp is not None and len(dp) > 0 else 'NA'
+    
+    # Allelic depths (AD)
+    ad = variant.format('AD')
+    format_data['AD'] = ','.join(map(str, ad[0])) if ad is not None and len(ad) > 0 else 'NA'
+    
+    # Genotype Quality (GQ)
+    gq = variant.format('GQ')
+    format_data['GQ'] = str(gq[0][0]) if gq is not None and len(gq) > 0 else 'NA'
+    
+    # Phred-scaled likelihoods (PL)
+    pl = variant.format('PL')
+    format_data['PL'] = ','.join(map(str, pl[0])) if pl is not None and len(pl) > 0 else 'NA'
+    
+    # RNC (if exists)
+    rnc = variant.format('RNC')
+    format_data['RNC'] = ','.join(map(str, rnc[0])) if rnc is not None and len(rnc) > 0 else 'NA'
+    
+    return format_data
+
 def get_csq_format(vcf):
     """Extract CSQ field format from VCF header"""
     for line in vcf.raw_header.split('\n'):
@@ -37,7 +71,7 @@ def filter_by_gnomad_af(input_vcf, output_prefix, af_threshold=0.005, cadd_thres
     if additional_fields is None:
         additional_fields = []
     
-    vcf = VCF(input_vcf)
+    vcf = VCF(input_vcf, strict_gt=True)
     csq_format = get_csq_format(vcf)
     
     if not csq_format:
@@ -76,11 +110,6 @@ def filter_by_gnomad_af(input_vcf, output_prefix, af_threshold=0.005, cadd_thres
                 print(f"Warning: Field '{field}' not found in CSQ")
         additional_fields = valid_fields
     
-    # Create output VCF
-    # output_vcf = f"{output_prefix}{input_basename}.rare_variants.vcf"
-    # print(f"Output VCF: {output_vcf}")
-    # writer = Writer(output_vcf, vcf)
-
     # include AF and CADD thresholds in filename (replace '.' with 'p' to avoid extra dots)
     af_str = f"af{af_threshold}".replace('.', 'p')
     cadd_str = f"cadd{cadd_threshold}".replace('.', 'p') if cadd_threshold is not None else "noCADD"
@@ -160,7 +189,7 @@ def filter_by_gnomad_af(input_vcf, output_prefix, af_threshold=0.005, cadd_thres
     if cadd_threshold:
         print(f"Variants filtered out by CADD < {cadd_threshold}: {failed_cadd}")
     print(f"Final variants passing all filters: {rare_variants}")
-    print(f"Output file: {output_vcf}")
+    print(f"Output vcf: {output_vcf}")
     
     # Also create a TSV summary
     create_summary_table(input_vcf, output_prefix, af_threshold, csq_format, cadd_threshold, additional_fields)
@@ -187,11 +216,7 @@ def create_summary_table(input_vcf, output_prefix, af_threshold, csq_format, cad
             additional_indices[field] = field_names.index(field)
     
 
-    # Create output TSV
-
-    # output_tsv = f"{output_prefix}{input_basename}.rare_variants.tsv"
-    # print(f"Output TSV: {output_tsv}")
-    
+    # Create output TSV    
     input_basename_local = os.path.splitext(os.path.basename(input_vcf))[0]
     if input_basename_local.endswith('.vcf'):
         input_basename_local = os.path.splitext(input_basename_local)[0]
@@ -201,11 +226,10 @@ def create_summary_table(input_vcf, output_prefix, af_threshold, csq_format, cad
     output_tsv = f"{output_prefix}{input_basename_local}{suffix}.rare_variants.tsv"
     print(f"Output TSV: {output_tsv}")
 
-
-
     with open(output_tsv, 'w') as f:
         # Write header
-        header = ['CHROM', 'POS', 'REF', 'ALT', 'gnomAD_AF']
+        # header = ['CHROM', 'POS', 'REF', 'ALT', 'gnomAD_AF']
+        header = ['CHROM', 'POS', 'REF', 'ALT', 'GT', 'DP', 'AD', 'GQ', 'PL', 'RNC', 'gnomAD_AF']
         if cadd_raw_idx is not None:
             header.append('CADD_RAW')
         if cadd_phred_idx is not None:
@@ -256,13 +280,22 @@ def create_summary_table(input_vcf, output_prefix, af_threshold, csq_format, cad
                                 passes_cadd = False
                     
                     if is_rare and passes_cadd:
+                        # Get FORMAT fields
+                        format_data = get_format_fields(variant)
+
                         row = [
                             variant.CHROM,
                             str(variant.POS),
                             variant.REF,
                             ','.join(variant.ALT),
+                            format_data['GT'],
+                            format_data['DP'],
+                            format_data['AD'],
+                            format_data['GQ'],
+                            format_data['PL'],
+                            format_data['RNC'],
                             gnomad_af_value
-                        ]
+                            ]
                         
                         if cadd_raw_idx is not None and len(values) > cadd_raw_idx:
                             row.append(values[cadd_raw_idx] or 'NA')
@@ -341,4 +374,9 @@ if __name__ == "__main__":
     ##  python3 filter_varients.py /data/humangen_kircherlab/Users/hassan/chaos_lab/temp_files/case_GS608_snv.chr21.annotated.vcf /data/humangen_kircherlab/Users/hassan/chaos_lab/temp_files/filtered 0.005 20 'Allele,Consequence,IMPACT,SYMBOL,Gene,Feature_type,Feature,BIOTYPE,EXON,INTRON,HGVSc,HGVSp,cDNA_position,CDS_position,Protein_position,Amino_acids,Codons,Existing_variation,DISTANCE,STRAND,FLAGS,SYMBOL_SOURCE,HGNC_ID,SOURCE,CADD,CADD_CADD_RAW,CADD_CADD_PHRED,gnomAD,gnomAD_AC,gnomAD_AN,gnomAD_AF,ClinVar,ClinVar_CLNSIG,ClinVar_CLNREVSTAT,ClinVar_CLNDN'
 
 
-    
+    # Usefull
+    # 'Consequence,IMPACT,SYMBOL,Gene,Feature_type,Feature,BIOTYPE,SYMBOL_SOURCE,HGNC_ID'
+
+
+    ## GT Info
+    ## GT:DP:AD:GQ:PL:RNC	./1:40:.,12:.:0,0,0:O.  GT will be -1/1 it is because there was a . in GT.
