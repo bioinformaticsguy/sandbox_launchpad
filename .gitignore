@@ -46,7 +46,6 @@ envs/*
 # data files
 *.gz
 *.vcf
-*.tsv
 *.zip
 *.tbi
 
@@ -68,3 +67,8 @@ envs/*
 /cadd/README.md
 /cadd/Snakefile
 /cadd/STDOUT_warnings.txt
+
+
+# Skip files in Demultiplexing folder
+/demultiplexing/logs
+/demultiplexing/output_folder
