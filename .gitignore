@@ -69,6 +69,13 @@ envs/*
 /cadd/STDOUT_warnings.txt
 
 
+## Dot dirs
+.cache
+.config
+.keras
+.kipoi
+
+
 # Skip files in Demultiplexing folder
 /demultiplexing/logs
 /demultiplexing/output_folder
