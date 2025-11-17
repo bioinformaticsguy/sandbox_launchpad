@@ -1,0 +1,11 @@
+# Sample configuration
+samples:
+  sample_list: "snakeotate/resources/snv_annotation/sample_list.csv"
+  
+base_dir: "snakeotate/samples"
+
+# Other configuration options can go here
+# output:
+#   base_dir: "samples"
+# tools:
+#   some_tool: "/path/to/tool"

@@ -79,3 +79,6 @@ envs/*
 # Skip files in Demultiplexing folder
 /demultiplexing/logs
 /demultiplexing/output_folder
+
+
+snakeotate/samples/
