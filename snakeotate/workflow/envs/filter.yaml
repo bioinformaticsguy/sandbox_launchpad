@@ -1,0 +1,9 @@
+name: filter
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.9
+  - cyvcf2
+  - pip
