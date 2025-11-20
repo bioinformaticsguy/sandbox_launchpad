@@ -8,6 +8,7 @@ base_dir = config["base_dir"]
 SAMPLES = samples_df["sample_name"].tolist()  # Adjust column name as needed
 SAMPLE_PATHS = dict(zip(samples_df["sample_name"], samples_df["file_path"]))  # Adjust column names
 
+
 rule all:
     input:
         expand("{sample_path}/annotate_snv/case_{sample}_snv.annotated.af0p005.cadd20p0.rare_variants.vcf", 
@@ -19,7 +20,9 @@ rule print_sample_paths:
         vcf="{sample_path}/call_snv/genome/case_{sample}_snv.vcf.gz"
 
     output:
-        cadd="{sample_path}/annotate_snv/case_{sample}_snv_CADD_GRCh38.tsv.gz"
+        cadd=temp("{sample_path}/annotate_snv/case_{sample}_snv_CADD_GRCh38.tsv.gz")
+
+
 
     shell:
         """
