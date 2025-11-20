@@ -33,5 +33,10 @@ echo "Working directory: $(pwd)"
 
 
 # # Run Snakemake workflow
-snakemake -c 16 --use-conda --snakefile snakeotate/workflow/Snakefile --configfile snakeotate/resources/snv_annotation/config.yaml --executor slurm  
- slurm_partition=shortterm --jobs 2
+snakemake -c 16 --use-conda --snakefile snakeotate/workflow/Snakefile --configfile snakeotate/resources/snv_annotation/config.yaml
+
+
+
+# # # Run Snakemake workflow
+# snakemake -c 16 --use-conda --snakefile snakeotate/workflow/Snakefile --configfile snakeotate/resources/snv_annotation/config.yaml --executor slurm  
+#  slurm_partition=shortterm --jobs 2

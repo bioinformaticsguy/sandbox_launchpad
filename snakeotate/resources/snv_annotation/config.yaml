@@ -4,6 +4,10 @@ samples:
   
 base_dir: "snakeotate/samples"
 
+thresholds:  # Fixed: was "threasholds"
+  af_threshold: 0.006
+  cadd_threshold: 21
+
 # Other configuration options can go here
 # output:
 #   base_dir: "samples"

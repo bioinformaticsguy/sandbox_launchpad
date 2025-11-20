@@ -9,9 +9,14 @@ SAMPLES = samples_df["sample_name"].tolist()  # Adjust column name as needed
 SAMPLE_PATHS = dict(zip(samples_df["sample_name"], samples_df["file_path"]))  # Adjust column names
 
 
+# Generate dynamic filename components from config
+af_str = str(config["thresholds"]["af_threshold"]).replace(".", "p")
+cadd_str = str(int(config["thresholds"]["cadd_threshold"])) + "p0"
+filter_suffix = f"af{af_str}.cadd{cadd_str}"
+
 rule all:
     input:
-        expand("{sample_path}/annotate_snv/case_{sample}_snv.annotated.af0p005.cadd20p0.rare_variants.vcf", 
+        expand("{sample_path}/annotate_snv/case_{sample}_snv.annotated." + filter_suffix + ".rare_variants.vcf", 
                zip, sample_path=[SAMPLE_PATHS[s] for s in SAMPLES], sample=SAMPLES)
 
 
@@ -61,13 +66,13 @@ rule filter_variants:
     input:
         annotated="{sample_path}/annotate_snv/case_{sample}_snv.annotated.vcf"
     output:
-        filtered_vcf="{sample_path}/annotate_snv/case_{sample}_snv.annotated.af0p005.cadd20p0.rare_variants.vcf",
-        filtered_tsv="{sample_path}/annotate_snv/case_{sample}_snv.annotated.af0p005.cadd20p0.rare_variants.tsv"
+        filtered_vcf="{sample_path}/annotate_snv/case_{sample}_snv.annotated.{filter_suffix}.rare_variants.vcf",
+        filtered_tsv="{sample_path}/annotate_snv/case_{sample}_snv.annotated.{filter_suffix}.rare_variants.tsv"
     conda:
         "envs/filter.yaml"
     params:
-        af_threshold=0.005,
-        cadd_threshold=20,
+        af_threshold=config["thresholds"]["af_threshold"],
+        cadd_threshold=config["thresholds"]["cadd_threshold"],
         additional_fields="Consequence,IMPACT,SYMBOL,Gene,Feature_type,Feature,BIOTYPE,SYMBOL_SOURCE,HGNC_ID"
     shell:
         """
