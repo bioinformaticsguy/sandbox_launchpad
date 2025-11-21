@@ -84,3 +84,5 @@ envs/*
 snakeotate/samples/
 
 /logs
+
+/sv_annotations/results
