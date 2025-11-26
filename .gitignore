@@ -86,3 +86,9 @@ snakeotate/samples/
 /logs
 
 /sv_annotations/results
+
+
+snakeotate/resources/batch_lists
+
+
+/sv_filtering/results
