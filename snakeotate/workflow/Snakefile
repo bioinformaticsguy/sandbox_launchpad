@@ -25,8 +25,9 @@ rule print_sample_paths:
         vcf="{sample_path}/call_snv/genome/case_{sample}_snv.vcf.gz"
 
     output:
-        cadd=temp("{sample_path}/annotate_snv/case_{sample}_snv_CADD_GRCh38.tsv.gz")
+        cadd="{sample_path}/annotate_snv/case_{sample}_snv_CADD_GRCh38.tsv.gz"
 
+    threads: workflow.cores  # Will use the threads set in profile
 
 
     shell:
@@ -34,6 +35,10 @@ rule print_sample_paths:
         echo "Processing sample: {wildcards.sample}"
         echo "Input VCF: {input.vcf}"
         echo "Output directory: {wildcards.sample_path}/annotate_snv"
+
+	PATH=/work/hassan/hassan/miniforge:$PATH
+	source /work/hassan/hassan/miniforge/etc/profile.d/conda.sh
+	# touch {output.cadd}
         
         # Run CADD script
         bash snakeotate/workflow/scripts/cadd.sh {input.vcf} {wildcards.sample_path}/annotate_snv
@@ -45,6 +50,7 @@ rule run_vep_annotation:
         cadd="{sample_path}/annotate_snv/case_{sample}_snv_CADD_GRCh38.tsv.gz"
     output:
         annotated="{sample_path}/annotate_snv/case_{sample}_snv.annotated.vcf"
+
     shell:
         """
         echo "Running VEP annotation for sample: {wildcards.sample}"
@@ -68,6 +74,7 @@ rule filter_variants:
     output:
         filtered_vcf="{sample_path}/annotate_snv/case_{sample}_snv.annotated.{filter_suffix}.rare_variants.vcf",
         filtered_tsv="{sample_path}/annotate_snv/case_{sample}_snv.annotated.{filter_suffix}.rare_variants.tsv"
+
     conda:
         "envs/filter.yaml"
     params:
