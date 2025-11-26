@@ -1,0 +1,31 @@
+executor: slurm
+jobs: 100
+cores: 16
+latency-wait: 300
+printshellcmds: true
+show-failed-logs: true
+keep-going: true
+
+default-resources:
+  - slurm_account=hassan
+  - slurm_partition=shortterm
+  - mem_gb=128
+  - runtime=60
+
+set-threads:
+  print_sample_paths: 4
+  run_vep_annotation: 8
+  filter_variants: 2
+
+set-resources:
+  print_sample_paths:
+    mem_gb: 8
+    runtime: 120
+  
+  run_vep_annotation:
+    mem_gb: 16
+    runtime: 240
+  
+  filter_variants:
+    mem_gb: 4
+    runtime: 60
