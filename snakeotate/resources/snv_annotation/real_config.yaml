@@ -1,11 +1,9 @@
 # Sample configuration
 samples:
-  sample_list: "snakeotate/resources/snv_annotation/real_sample_list.csv"
+  sample_list: "/data/humangen_kircherlab/Users/hassan/repos/sandbox_launchpad/snakeotate/resources/batch_lists/batch_1_sample_list.csv"
   
 base_dir: "snakeotate/samples"
 
-# Other configuration options can go here
-# output:
-#   base_dir: "samples"
-# tools:
-#   some_tool: "/path/to/tool"
+thresholds:  # Fixed: was "threasholds"
+  af_threshold: 0.005
+  cadd_threshold: 20
