@@ -47,8 +47,6 @@ tabix -p vcf ${TEMP_VCF}
 echo "activating conda environment..."
 conda activate cadd
 
-cd /data/humangen_kircherlab/Users/hassan/chaos_lab/cadd
-
 # Run CADD with specific input and output files
 echo "Running CADD..."
 /data/humangen_kircherlab/Users/hassan/repos/sandbox_launchpad/cadd/CADD.sh -g GRCh38 -o ${OUTPUT_CADD} ${TEMP_VCF}
