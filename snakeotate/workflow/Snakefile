@@ -20,7 +20,7 @@ rule all:
                zip, sample_path=[SAMPLE_PATHS[s] for s in SAMPLES], sample=SAMPLES)
 
 
-rule print_sample_paths:
+rule annotate_with_cadd:
     input:
         vcf="{sample_path}/call_snv/genome/case_{sample}_snv.vcf.gz"
 
@@ -36,9 +36,9 @@ rule print_sample_paths:
         echo "Input VCF: {input.vcf}"
         echo "Output directory: {wildcards.sample_path}/annotate_snv"
 
-	PATH=/work/hassan/hassan/miniforge:$PATH
-	source /work/hassan/hassan/miniforge/etc/profile.d/conda.sh
-	    # touch {output.cadd}
+    PATH=/work/hassan/hassan/miniforge:$PATH
+    source /work/hassan/hassan/miniforge/etc/profile.d/conda.sh
+        # touch {output.cadd}
         
         # Run CADD script
         bash snakeotate/workflow/scripts/cadd.sh {input.vcf} {wildcards.sample_path}/annotate_snv
