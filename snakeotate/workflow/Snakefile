@@ -38,7 +38,7 @@ rule print_sample_paths:
 
 	PATH=/work/hassan/hassan/miniforge:$PATH
 	source /work/hassan/hassan/miniforge/etc/profile.d/conda.sh
-	# touch {output.cadd}
+	    # touch {output.cadd}
         
         # Run CADD script
         bash snakeotate/workflow/scripts/cadd.sh {input.vcf} {wildcards.sample_path}/annotate_snv
