@@ -1,0 +1,15 @@
+rule all:
+    input:
+        expand("output/file_{sample}.txt", sample=range(1, 6))
+
+rule create_file:
+    output:
+        "output/file_{sample}.txt"
+    shell:
+        """
+        echo "Processing sample {wildcards.sample}"
+        mkdir -p output
+        touch {output}
+        sleep 30
+        echo "Sample {wildcards.sample} completed at $(date)" > {output}
+        """
