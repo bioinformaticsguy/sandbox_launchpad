@@ -92,3 +92,7 @@ snakeotate/resources/batch_lists
 
 
 /sv_filtering/results
+
+/test_snakemake_slurm/output
+
+/test_snakemake_slurm/logs
